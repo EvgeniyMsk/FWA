@@ -11,47 +11,19 @@
 <head>
     <title>Регистрация епта</title>
     <style>
-        header {
-            background: darkgray;
-            text-align: center;
-        }
-        footer {
-            color: beige;
-            background: #092a75;
-            text-align: center;
-        }
-        .signInForm {
-            background: bisque;
-            align-content: center;
-        }
-        html {
-            position: relative;
-            min-height: 100%;
-        }
     </style>
 </head>
 <body>
-<header>
-    <h1>Авторизация</h1>
-</header>
-<div class="signInForm">
-    <form action="Cinema_war_exploded/signIn" method="post">
-        <div>
-        <input type="text" value="Login">
-        </div>
-        <div>
-        <input type="text" value="Password">
-        </div>
-        <div>
-        <button type="submit">Войти</button>
-        </div>
-    </form>
-</div>
-<footer>
-    <h3>
-        <%SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd");%>
-        <%=formatter.format(new Date(System.currentTimeMillis()))%>
-    </h3>
-</footer>
+<h1>Авторизация</h1>
+<form action="/Cinema_war_exploded/signIn" method="post">
+    <label for="login">Логин</label>
+    <input type="text" id="login" name="login" placeholder="Логин">
+    <label for="password">Пароль</label>
+    <input type="password" id="password" name="password" placeholder="Пароль">
+    <div>
+    <button type="submit">Войти</button>
+    </div>
+</form>
+
 </body>
 </html>

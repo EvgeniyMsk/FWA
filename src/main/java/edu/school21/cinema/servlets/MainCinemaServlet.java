@@ -1,5 +1,7 @@
 package edu.school21.cinema.servlets;
 
+import edu.school21.cinema.models.User;
+import edu.school21.cinema.repositories.UserRepositoryImpl;
 import org.springframework.context.ApplicationContext;
 
 import javax.servlet.RequestDispatcher;
@@ -25,5 +27,7 @@ public class MainCinemaServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/WEB-INF/html/index.html");
         dispatcher.forward(req, resp);
+        UserRepositoryImpl userRepository = springContext.getBean("userRepository", UserRepositoryImpl.class);
+        System.out.println(userRepository.getUserById(145L));
     }
 }
