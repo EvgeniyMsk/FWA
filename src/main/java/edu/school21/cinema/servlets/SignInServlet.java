@@ -1,5 +1,6 @@
 package edu.school21.cinema.servlets;
 
+import edu.school21.cinema.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
@@ -10,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet("/signIn")
@@ -29,6 +31,12 @@ public class SignInServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.getWriter().println(req.getParameter("login") + " " + req.getParameter("password"));
+        UserService userService = springContext.getBean("userService", UserService.class);
+        if (userService.signIn(req.getParameter("login"), req.getParameter("password")))
+        {
+            HttpSession session = req.getSession();
+            session.setAttribute("user", req.getParameter("login"));
+            resp.sendRedirect("profile");
+        } else resp.sendError(HttpServletResponse.SC_FORBIDDEN);
     }
 }

@@ -12,5 +12,14 @@
 </head>
 <body>
 <h1>Регистрация</h1>
+<form action="/Cinema_war_exploded/signUp" method="post">
+    <label for="login">Логин</label>
+    <input type="text" id="login" name="login" placeholder="Логин">
+    <label for="password">Пароль</label>
+    <input type="password" id="password" name="password" placeholder="Пароль">
+    <div>
+        <button type="submit">Зарегистрироватья</button>
+    </div>
+</form>
 </body>
 </html>

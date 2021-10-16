@@ -2,7 +2,9 @@ package edu.school21.cinema.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import edu.school21.cinema.repositories.UserRepository;
 import edu.school21.cinema.repositories.UserRepositoryImpl;
+import edu.school21.cinema.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -43,5 +45,10 @@ public class ApplicationConfig {
     @Bean
     UserRepositoryImpl userRepository(DataSource dataSource) {
         return new UserRepositoryImpl(hikariDataSource());
+    }
+
+    @Bean
+    UserServiceImpl userService(UserRepository userRepository) {
+        return new UserServiceImpl(userRepository(hikariDataSource()));
     }
 }
