@@ -21,5 +21,6 @@
         <button type="submit">Зарегистрироватья</button>
     </div>
 </form>
+<a href="/Cinema_war_exploded/">На главную</a>
 </body>
 </html>

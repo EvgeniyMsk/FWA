@@ -32,10 +32,11 @@ public class SignInServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         UserService userService = springContext.getBean("userService", UserService.class);
-        if (userService.signIn(req.getParameter("login"), req.getParameter("password")))
+        if (userService.signIn(req.getParameter("login"), req.getParameter("password"), req.getRemoteAddr()))
         {
             HttpSession session = req.getSession();
-            session.setAttribute("user", req.getParameter("login"));
+            session.setAttribute("user", userService.getProfile(req.getParameter("login")));
+            session.setAttribute("auth", userService.getAuth(req.getParameter("login")));
             resp.sendRedirect("profile");
         } else resp.sendError(HttpServletResponse.SC_FORBIDDEN);
     }
