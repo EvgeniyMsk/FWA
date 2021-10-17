@@ -26,6 +26,8 @@ public class ApplicationConfig {
     private String DB_PASSWORD;
     @Value("${db.driver.name}")
     private String DB_DRIVER_NAME;
+    @Value("${uploadPath}")
+    private String UPLOAD_PATH;
 
     @Bean
     public DataSource hikariDataSource() {
@@ -50,5 +52,10 @@ public class ApplicationConfig {
     @Bean
     UserServiceImpl userService(UserRepository userRepository) {
         return new UserServiceImpl(userRepository(hikariDataSource()));
+    }
+
+    @Bean
+    String uploadPath() {
+        return UPLOAD_PATH;
     }
 }

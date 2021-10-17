@@ -1,7 +1,9 @@
 package edu.school21.cinema.servlets;
+
 import edu.school21.cinema.models.User;
-import edu.school21.cinema.service.UserService;
+import org.apache.commons.io.FileUtils;
 import org.springframework.context.ApplicationContext;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -10,10 +12,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.io.IOException;
+import java.util.Base64;
 
-@WebServlet("/profile")
-public class ProfileServlet extends HttpServlet {
+@WebServlet("/images")
+public class ImagesServlet extends HttpServlet {
     private ApplicationContext springContext;
 
     @Override
@@ -23,26 +27,16 @@ public class ProfileServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html");
-        req.setCharacterEncoding("UTF-8");
-        UserService userService = springContext.getBean("userService", UserService.class);
-        HttpSession session = req.getSession();
-        session.setAttribute("auth", userService.getAuth(((User)session.getAttribute("user")).getLogin()));
-        RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/WEB-INF/jsp/profile.jsp");
-        dispatcher.forward(req, resp);
+        resp.getWriter().println("Hello");
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html");
-        req.setCharacterEncoding("UTF-8");
-        UserService userService = springContext.getBean("userService", UserService.class);
+        String uploadPath = springContext.getBean("uploadPath", String.class);
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("user");
-        user.setFirstName(req.getParameter("firstname"));
-        user.setLastName(req.getParameter("lastname"));
-        user.setPhoneNumber(req.getParameter("phone"));
-        userService.updateProfile(user);
+        File file = new File(uploadPath + "/" + req.getParameter("image"));
+        System.out.println(file);
         resp.sendRedirect("profile");
     }
 }

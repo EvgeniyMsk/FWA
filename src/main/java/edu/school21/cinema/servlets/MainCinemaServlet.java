@@ -20,12 +20,14 @@ public class MainCinemaServlet extends HttpServlet {
 
     @Override
     public void init(ServletConfig config) throws ServletException {
+
         springContext = (ApplicationContext) config.getServletContext().getAttribute("springContext");
     }
 
     @SneakyThrows
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("text/html");
         RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/WEB-INF/html/index.html");
         dispatcher.forward(req, resp);
     }

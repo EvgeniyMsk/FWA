@@ -1,3 +1,4 @@
+<%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="edu.school21.cinema.models.AuthHistory" %>
 <%@ page import="edu.school21.cinema.models.User" %><%--
@@ -8,85 +9,140 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%request.setCharacterEncoding("UTF-8");%>
+<!DOCTYPE html>
 <html>
 <head>
     <title>Профиль пользователя</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <style>
+        body {
+            margin: 0;
+            background: #d2defc;
+            font-family: "Helvetica",sans-serif;
+        }
+        th {
+            font-size: 0.8em;
+            padding: 5px 7px;
+            border: 1px solid #133925;
+            text-align: center;
+        }
+        td {
+            font-size: 0.8em;
+            padding: 5px 7px;
+            border: 1px solid #133925;
+            text-align: center;
+        }
+        table {
+            border-collapse: collapse;
+            line-height: 1.1;
+            background:  radial-gradient(farthest-corner at 50% 50%, white, #5cadf1);
+            color: #0C213B;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
     <div class="row">
-        <div class="col-4">
-            <img src="https://cdn1.ozone.ru/s3/multimedia-j/6021227203.jpg" style="height: 300px; width: 200px">
-            <br>
-            <button type="button">Обновить фото</button>
+        <h1 style="text-align: center">Профиль пользователя</h1>
+        <div class="col-sm-4">
+            <img src="https://cdn1.ozone.ru/s3/multimedia-j/6021227203.jpg" style="height: 75%; width: 100%">
+            <form action="/Cinema_war_exploded/images" enctype="multipart/form-data" method="post">
+                <input type="file" id="image" name="image">
+                <button type="submit">Загрузить фото</button>
+            </form>
         </div>
-        <div class="col-4">
+        <div class="col-sm-8">
             <% User user = (User) request.getSession().getAttribute("user");%>
             <table class="table table-bordered">
-                <th>
-                    Логин
-                </th>
-                <th>
-                    Имя
-                </th>
-                <th>
-                    Фамилия
-                </th>
-                <th>
-                    Телефон
-                </th>
-                <tbody>
-                <td>
-                    <%=user.getLogin()%>
-                </td>
-                <td>
-                    <%=user.getFirstName()%>
-                </td>
-                <td>
-                    <%=user.getLastName()%>
-                </td>
-                <td>
-                    <%=user.getPhoneNumber()%>
-                </td>
-                </tbody>
+                <tr>
+                    <td>Логин</td>
+                    <td><%=user.getLogin()%></td>
+                </tr>
+                <tr>
+                    <td>Имя</td>
+                    <td><%=user.getFirstName()%></td>
+                </tr>
+                <tr>
+                    <td>Фамилия</td>
+                    <td><%=user.getLastName()%></td>
+                </tr>
+                <tr>
+                    <td>Телефон</td>
+                    <td><%=user.getPhoneNumber()%></td>
+                </tr>
             </table>
             <form action="/Cinema_war_exploded/profile" method="post">
-                <label for="firstname">Имя</label>
-                <input type="text" id="firstname" name="firstname" placeholder="Имя">
-                <br>
-                <label for="lastname">Фамилия</label>
-                <input type="text" id="lastname" name="lastname" placeholder="Фамилия">
-                <br>
-                <label for="phone">Телефон</label>
-                <input type="text" id="phone" name="phone" placeholder="Телефон">
-                <br>
+                <div class="col">
+                    <label for="firstname">Имя</label>
+                    <br>
+                    <input type="text" id="firstname" name="firstname" placeholder="Имя" style="width: 100%">
+                </div>
+                <div class="col">
+                    <label for="lastname">Фамилия</label>
+                    <br>
+                    <input type="text" id="lastname" name="lastname" placeholder="Фамилия" style="width: 100%">
+                </div>
+                <div class="col">
+                    <label for="phone">Телефон</label>
+                    <br>
+                    <input type="text" id="phone" name="phone" placeholder="Телефон" style="width: 100%">
+                </div>
                 <div>
-                    <button type="submit">Обновить</button>
+                    <button type="submit" style="width: 100%">Обновить информацию</button>
                 </div>
             </form>
         </div>
     </div>
     <div class="row">
         <%ArrayList<AuthHistory> authHistories = (ArrayList<AuthHistory>)request.getSession().getAttribute("auth");
-            String operation = "";
-            for (AuthHistory authHistory : authHistories)
-            {
-                if (authHistory.getType().equals("sign_up"))
-                {
-                    operation = "Регистрация";
-                }
-                else
-                {
-                    operation = "Вход";
-                }
-                out.println("<div>" + operation + "</div>");
-                out.println("<div>" + authHistory.getTime() + "</div>");
-                out.println("<div>" + authHistory.getAddress() + "</div>");
-            }
-        %>
+            request.setAttribute("auths", authHistories);%>
+        <div class="col-sm-4">
+            <h1>История входов</h1>
+            <table style="width: 100%">
+                <th>Операция</th>
+                <th>Время</th>
+                <th>IP-Адрес</th>
+                <c:forEach items="${requestScope.auths}" var="auth">
+                    <tbody>
+                    <td>
+                        <c:if test="${auth.type == 'sign_up'}">Регистрация</c:if>
+                        <c:if test="${auth.type == 'sign_in'}">Вход с устройства</c:if>
+                    </td>
+                    <td>${auth.time}</td>
+                    <td>
+                        <c:if test="${auth.address == '0:0:0:0:0:0:0:1'}">127.0.0.1</c:if>
+                        <c:if test="${auth.address != '0:0:0:0:0:0:0:1'}">${auth.address}</c:if>
+                    </td>
+                    </tbody>
+                </c:forEach>
+            </table>
+        </div>
+        <div class="col-sm-8">
+            <h1>История загрузок</h1>
+            <table style="width: 100%">
+                <th>Операция</th>
+                <th>Время</th>
+                <th>IP-Адрес</th>
+                <c:forEach items="${requestScope.auths}" var="auth">
+                    <tbody>
+                    <td>
+                        <c:if test="${auth.type == 'sign_up'}">Регистрация</c:if>
+                        <c:if test="${auth.type == 'sign_in'}">Вход с устройства</c:if>
+                    </td>
+                    <td>${auth.time}</td>
+                    <td>
+                        <c:if test="${auth.address == '0:0:0:0:0:0:0:1'}">127.0.0.1/localhost</c:if>
+                        <c:if test="${auth.address != '0:0:0:0:0:0:0:1'}">${auth.address}</c:if>
+                    </td>
+                    </tbody>
+                </c:forEach>
+            </table>
+        </div>
+
+
         <form action="/Cinema_war_exploded/logout" method="post">
-            <button type="submit">Выйти</button>
+            <button type="submit" style="width: 100%">Выйти</button>
         </form>
     </div>
 
