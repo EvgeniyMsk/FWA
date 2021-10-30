@@ -1,7 +1,9 @@
 <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="edu.school21.cinema.models.AuthHistory" %>
-<%@ page import="edu.school21.cinema.models.User" %><%--
+<%@ page import="edu.school21.cinema.models.User" %>
+<%@ page import="java.io.File" %>
+<%--
   Created by IntelliJ IDEA.
   User: qsymond
   Date: 16.10.2021
@@ -46,11 +48,21 @@
     <div class="row">
         <h1 style="text-align: center">Профиль пользователя</h1>
         <div class="col-sm-4">
-            <img src="https://cdn1.ozone.ru/s3/multimedia-j/6021227203.jpg" style="height: 75%; width: 100%">
+            <c:if test="${requestScope.image != null}">
+                <div style="text-align: center;">
+                  <img src="data:image/png;base64,<%=request.getAttribute("image")%>" style="height: 400px; width: 100%;">
+                </div>
+            </c:if>
+            <c:if test="${requestScope.image == null}">
+            <div style="text-align: center;">
+                <img src="https://sobernation.com/wp-content/uploads/2011/10/Anonymity.jpg" style="height: 400px; width: 100%;">
+            </div>
+            </c:if>
             <form action="/Cinema_war_exploded/images" enctype="multipart/form-data" method="post">
                 <input type="file" id="image" name="image">
                 <button type="submit">Загрузить фото</button>
             </form>
+
         </div>
         <div class="col-sm-8">
             <% User user = (User) request.getSession().getAttribute("user");%>
@@ -96,7 +108,9 @@
     </div>
     <div class="row">
         <%ArrayList<AuthHistory> authHistories = (ArrayList<AuthHistory>)request.getSession().getAttribute("auth");
-            request.setAttribute("auths", authHistories);%>
+            request.setAttribute("auths", authHistories);
+            request.setAttribute("files", new File((String) request.getAttribute("uploadPath")).listFiles());
+        %>
         <div class="col-sm-4">
             <h1>История входов</h1>
             <table style="width: 100%">
@@ -121,19 +135,19 @@
         <div class="col-sm-8">
             <h1>История загрузок</h1>
             <table style="width: 100%">
-                <th>Операция</th>
-                <th>Время</th>
-                <th>IP-Адрес</th>
-                <c:forEach items="${requestScope.auths}" var="auth">
+                <th>Имя файла</th>
+                <th>Размер</th>
+                <th>MIME</th>
+                <c:forEach items="${requestScope.files}" var="file">
                     <tbody>
                     <td>
-                        <c:if test="${auth.type == 'sign_up'}">Регистрация</c:if>
-                        <c:if test="${auth.type == 'sign_in'}">Вход с устройства</c:if>
+                        ${file.getName()}
                     </td>
-                    <td>${auth.time}</td>
                     <td>
-                        <c:if test="${auth.address == '0:0:0:0:0:0:0:1'}">127.0.0.1/localhost</c:if>
-                        <c:if test="${auth.address != '0:0:0:0:0:0:0:1'}">${auth.address}</c:if>
+                            ${file.length()} kb
+                    </td>
+                    <td>
+                        image/jpg
                     </td>
                     </tbody>
                 </c:forEach>
