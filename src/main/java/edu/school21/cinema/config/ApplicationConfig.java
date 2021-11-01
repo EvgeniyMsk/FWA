@@ -26,7 +26,7 @@ public class ApplicationConfig {
     private String DB_PASSWORD;
     @Value("${db.driver.name}")
     private String DB_DRIVER_NAME;
-    @Value("${uploadPath}")
+    @Value("${storage.path}")
     private String UPLOAD_PATH;
 
     @Bean

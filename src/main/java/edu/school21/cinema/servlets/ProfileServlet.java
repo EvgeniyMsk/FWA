@@ -27,7 +27,7 @@ public class ProfileServlet extends HttpServlet {
     private String uploadPath;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init(ServletConfig config) {
         springContext = (ApplicationContext) config.getServletContext().getAttribute("springContext");
         uploadPath = springContext.getBean("uploadPath", String.class);
     }
@@ -43,15 +43,12 @@ public class ProfileServlet extends HttpServlet {
             imagesDir.mkdir();
         req.setAttribute("uploadPath", uploadPath + user.getId());
         File image = new File(uploadPath + user.getId());
-        System.out.println(image.listFiles().length);
         for (File file : image.listFiles())
             if (file.getName().contains("DS_Store"))
                 file.delete();
         if ((image.listFiles().length != 0)) {
             File[] files = image.listFiles();
             Arrays.sort(files, (f1, f2) -> Long.valueOf(f1.lastModified()).compareTo(f2.lastModified()));
-            for (File file : files)
-                System.out.println(file.lastModified());
             byte[] fileContent = FileUtils.readFileToByteArray(files[files.length - 1]);
             String encodedString = Base64.getEncoder().encodeToString(fileContent);
             req.setAttribute("image", encodedString);
@@ -63,7 +60,7 @@ public class ProfileServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("text/html");
         req.setCharacterEncoding("UTF-8");
         UserService userService = springContext.getBean("userService", UserService.class);

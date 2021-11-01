@@ -41,12 +41,32 @@
             background:  radial-gradient(farthest-corner at 50% 50%, white, #5cadf1);
             color: #0C213B;
         }
+        .form-test {
+            font: 14px Arial;
+            alignment: right;
+        }
+        .form-test input {
+            font: 14px Arial;
+            border: none;
+            padding: 0;
+            background: #d2defc;
+            color: #00f;
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="row">
-        <h1 style="text-align: center">Профиль пользователя</h1>
+        <div class="col-sm-8">
+            <h1 style="text-align: center">Профиль пользователя</h1>
+        </div>
+        <div class="col-sm-4">
+            <form class="form-test" action="/Cinema_war_exploded/logout" method="post">
+                <h1 style="text-align: right"><input type="submit" value="Выйти"></h1>
+            </form>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-sm-4">
             <c:if test="${requestScope.image != null}">
                 <div style="text-align: center;">
@@ -60,7 +80,7 @@
             </c:if>
             <form action="/Cinema_war_exploded/images" enctype="multipart/form-data" method="post">
                 <input type="file" id="image" name="image">
-                <button type="submit">Загрузить фото</button>
+                <button type="submit" style="width: 100%">Загрузить фото</button>
             </form>
 
         </div>
@@ -141,7 +161,7 @@
                 <c:forEach items="${requestScope.files}" var="file">
                     <tbody>
                     <td>
-                        ${file.getName()}
+                            ${file.getName()}
                     </td>
                     <td>
                             ${file.length()} kb
@@ -153,11 +173,6 @@
                 </c:forEach>
             </table>
         </div>
-
-
-        <form action="/Cinema_war_exploded/logout" method="post">
-            <button type="submit" style="width: 100%">Выйти</button>
-        </form>
     </div>
 
 </div>

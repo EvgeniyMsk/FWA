@@ -31,24 +31,26 @@ public class ImagesServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.getWriter().println("Hello");
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        User user = (User) req.getSession().getAttribute("user");
+        System.out.println(req.getRequestURI() + File.separator + user.getId());
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("user");
         File imagesDir = new File(uploadPath + user.getId());
         if (!imagesDir.exists())
             imagesDir.mkdir();
-        String fileName = null;
-        for (Part part : req.getParts()) {
-            part.write(imagesDir + File.separator + part.getSubmittedFileName());
-            fileName = part.getSubmittedFileName();
+        try {
+            for (Part part : req.getParts())
+                part.write(imagesDir + File.separator + part.getSubmittedFileName());
         }
-        File file = new File(imagesDir + File.separator + fileName);
-        System.out.println(file.getName());
+        catch (Exception ignored)
+        {
+
+        }
         resp.sendRedirect("profile");
     }
 }
