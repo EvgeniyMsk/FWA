@@ -41,7 +41,6 @@ public class ImagesServlet extends HttpServlet {
             resp.sendError(HttpServletResponse.SC_FORBIDDEN);
         else
             try {
-                System.out.println(uploadPath + user.getId() + File.separator + URI);
                 byte[] fileContent = FileUtils.readFileToByteArray(new File(uploadPath + user.getId() + File.separator + URI));
                 String encodedString = Base64.getEncoder().encodeToString(fileContent);
                 req.setAttribute("image", encodedString);

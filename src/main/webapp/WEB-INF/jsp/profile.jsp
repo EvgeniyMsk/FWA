@@ -161,7 +161,7 @@
                 <c:forEach items="${requestScope.files}" var="file">
                     <tbody>
                     <td>
-                            <a href="images/${file.getName()}">${file.getName()}</a>
+                            <a href="images/${file.getName()}" target="_blank">${file.getName()}</a>
                     </td>
                     <td>
                             ${file.length()} kb

@@ -39,6 +39,6 @@ public class SignInServlet extends HttpServlet {
             session.setAttribute("user", userService.getProfile(req.getParameter("login")));
             session.setAttribute("auth", userService.getAuth(req.getParameter("login")));
             resp.sendRedirect("profile");
-        } else resp.sendError(HttpServletResponse.SC_FORBIDDEN);
+        } else resp.sendRedirect("signIn");
     }
 }
