@@ -1,10 +1,9 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="Cinema:war exploded">
-    <output-path>$PROJECT_DIR$/out/artifacts/Cinema_war_exploded</output-path>
+  <artifact type="exploded-war" name="FWA:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/FWA_war_exploded</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
-          <element id="module-output" name="Cinema" />
           <element id="module-output" name="FWA" />
         </element>
         <element id="directory" name="lib">
@@ -22,14 +21,14 @@
           <element id="library" level="project" name="Maven: com.zaxxer:HikariCP:4.0.3" />
           <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:2.0.0-alpha1" />
           <element id="library" level="project" name="Maven: org.glassfish.web:jakarta.servlet.jsp.jstl:1.2.6" />
-          <element id="library" level="project" name="Maven: jakarta.el:jakarta.el-api:3.0.2" />
           <element id="library" level="project" name="Maven: jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:1.2.4" />
+          <element id="library" level="project" name="Maven: jakarta.el:jakarta.el-api:3.0.2" />
+          <element id="library" level="project" name="Maven: commons-io:commons-io:1.4" />
           <element id="library" level="project" name="Maven: jakarta.servlet:jakarta.servlet-api:4.0.2" />
           <element id="library" level="project" name="Maven: javax.servlet:javax.servlet-api:4.0.1" />
-          <element id="library" level="project" name="Maven: commons-io:commons-io:1.4" />
+          <element id="library" level="application_server_libraries" name="Tomcat 8.5.70" />
         </element>
       </element>
-      <element id="javaee-facet-resources" facet="Cinema/web/Web" />
       <element id="javaee-facet-resources" facet="FWA/web/Web" />
     </root>
   </artifact>

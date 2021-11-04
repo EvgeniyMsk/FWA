@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.Date;
 
 @WebServlet("/images/*")
@@ -31,9 +32,24 @@ public class ImagesServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        resp.setContentType("text/html");
         User user = (User) req.getSession().getAttribute("user");
-        System.out.println(req.getRequestURI() + File.separator + user.getId());
+        String[] URLS = req.getRequestURI().split("/");
+        String URI = URLS[URLS.length - 1];
+        if (user == null)
+            resp.sendError(HttpServletResponse.SC_FORBIDDEN);
+        else
+            try {
+                System.out.println(uploadPath + user.getId() + File.separator + URI);
+                byte[] fileContent = FileUtils.readFileToByteArray(new File(uploadPath + user.getId() + File.separator + URI));
+                String encodedString = Base64.getEncoder().encodeToString(fileContent);
+                req.setAttribute("image", encodedString);
+                RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/jsp/image.jsp");
+                dispatcher.forward(req, resp);
+            } catch (Exception e) {
+                resp.sendError(HttpServletResponse.SC_FORBIDDEN);
+            }
     }
 
     @Override
