@@ -1,7 +1,7 @@
 insert into users (login, password, firstname, lastname, phone) VALUES
     (
      'admin',
-     'pass',
+     '$2a$10$TZMg4w3G.6e3fPw5zDXRkemVZpEUtbreJvLhuUaDcj7wHyuExZIOS',
      'Ivan',
      'Pertov',
      '8911'
@@ -9,7 +9,7 @@ insert into users (login, password, firstname, lastname, phone) VALUES
 insert into users (login, password, firstname, lastname, phone) VALUES
 (
     'admin1',
-    'pass',
+    '$2a$10$EUphP3Vu4nRdZyfRd2wSZ.yFGAdvqYxmbVg3xYZISUfKnS9C3eiEC',
     'Ivan',
     'Pertov',
     '8911'
