@@ -55,7 +55,7 @@ public class ProfileServlet extends HttpServlet {
         }
         UserService userService = springContext.getBean("userService", UserService.class);
         session.setAttribute("auth", userService.getAuth(((User)session.getAttribute("user")).getLogin()));
-        RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/WEB-INF/jsp/profile.jsp");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/jsp/profile.jsp");
         dispatcher.forward(req, resp);
     }
 
@@ -66,9 +66,12 @@ public class ProfileServlet extends HttpServlet {
         UserService userService = springContext.getBean("userService", UserService.class);
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("user");
-        user.setFirstName(req.getParameter("firstname"));
-        user.setLastName(req.getParameter("lastname"));
-        user.setPhoneNumber(req.getParameter("phone"));
+        if (req.getParameter("firstname").length() > 0)
+            user.setFirstName(req.getParameter("firstname"));
+        if (req.getParameter("lastname").length() > 0)
+            user.setLastName(req.getParameter("lastname"));
+        if (req.getParameter("phone").length() > 0)
+            user.setPhoneNumber(req.getParameter("phone"));
         userService.updateProfile(user);
         resp.sendRedirect("profile");
     }

@@ -26,7 +26,7 @@ public class LogoutServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         if (session.getAttribute("user") == null)
-            resp.sendRedirect("/Cinema_war_exploded/");
+            resp.sendRedirect(req.getContextPath());
         else
             resp.sendRedirect("profile");
     }
@@ -35,6 +35,6 @@ public class LogoutServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         session.setAttribute("user", null);
-        resp.sendRedirect("/Cinema_war_exploded/");
+        resp.sendRedirect(req.getContextPath());
     }
 }

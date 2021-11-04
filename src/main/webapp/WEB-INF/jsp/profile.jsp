@@ -61,7 +61,7 @@
             <h1 style="text-align: center">Профиль пользователя</h1>
         </div>
         <div class="col-sm-4">
-            <form class="form-test" action="/Cinema_war_exploded/logout" method="post">
+            <form class="form-test" action="${pageContext.request.contextPath}/logout" method="post">
                 <h1 style="text-align: right"><input type="submit" value="Выйти"></h1>
             </form>
         </div>
@@ -75,11 +75,11 @@
             </c:if>
             <c:if test="${requestScope.image == null}">
             <div style="text-align: center;">
-                <img src="https://sobernation.com/wp-content/uploads/2011/10/Anonymity.jpg" style="height: 400px; width: 100%;">
+                <img src="${pageContext.request.contextPath}/img/Anonymity.jpeg" style="height: 400px; width: 100%;">
             </div>
             </c:if>
-            <form action="/Cinema_war_exploded/images" enctype="multipart/form-data" method="post">
-                <input type="file" id="image" name="image">
+            <form action="${pageContext.request.contextPath}/images" enctype="multipart/form-data" method="post">
+                <input type="file" id="image" name="image" accept="image/*">
                 <button type="submit" style="width: 100%">Загрузить фото</button>
             </form>
 
@@ -104,7 +104,7 @@
                     <td><%=user.getPhoneNumber()%></td>
                 </tr>
             </table>
-            <form action="/Cinema_war_exploded/profile" method="post">
+            <form action="${pageContext.request.contextPath}/profile" method="post">
                 <div class="col">
                     <label for="firstname">Имя</label>
                     <br>

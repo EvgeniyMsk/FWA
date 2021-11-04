@@ -17,7 +17,7 @@
 </head>
 <body>
 <h1>Авторизация</h1>
-<form action="/Cinema_war_exploded/signIn" method="post">
+<form action="${pageContext.request.contextPath}/signIn" method="post">
     <div>
     <label for="login">Логин</label>
     <input type="text" id="login" name="login" placeholder="Логин">
@@ -30,7 +30,7 @@
     <button type="submit">Войти</button>
     </div>
 </form>
-<a href="/Cinema_war_exploded/">На главную</a>
+<a href="${pageContext.request.contextPath}/">На главную</a>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>

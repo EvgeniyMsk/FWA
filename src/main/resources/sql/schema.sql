@@ -9,8 +9,7 @@ create table users
     password  varchar,
     firstname varchar,
     lastname  varchar   not null,
-    phone     varchar,
-    image varchar
+    phone     varchar
 );
 
 alter table users
