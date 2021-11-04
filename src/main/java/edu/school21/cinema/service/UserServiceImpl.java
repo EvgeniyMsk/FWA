@@ -3,6 +3,8 @@ package edu.school21.cinema.service;
 import edu.school21.cinema.models.AuthHistory;
 import edu.school21.cinema.models.User;
 import edu.school21.cinema.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -11,6 +13,8 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService{
     private UserRepository userRepository;
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -21,7 +25,7 @@ public class UserServiceImpl implements UserService{
         if (!login.isEmpty() && !password.isEmpty())
             if (userRepository.getUserByLogin(login) == null)
             {
-                User user = new User(login, password, "", "", "");
+                User user = new User(login, bCryptPasswordEncoder.encode(password), "", "", "");
                 userRepository.saveUser(user);
                 userRepository.addSignUpInfo(userRepository.getUserByLogin(login), address);
                 return true;
@@ -34,7 +38,7 @@ public class UserServiceImpl implements UserService{
         if (!login.isEmpty() && !password.isEmpty())
         {
             User tempUser = userRepository.getUserByLogin(login);
-            if ((tempUser != null) && tempUser.getPassword().equals(password))
+            if ((tempUser != null) && bCryptPasswordEncoder.matches(password, tempUser.getPassword()))
             {
                 userRepository.addSignInInfo(userRepository.getUserByLogin(login), address);
                 return true;
